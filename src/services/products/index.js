@@ -3,7 +3,7 @@ import uniqid from "uniqid";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { productValidation  } from "./validation.js";
-import { getProducts, getReviews, writeProductsToFile } from "../../lib/functions.js";
+import { getProducts, getReviews, writeProductsToFile, saveImages } from "../../lib/functions.js";
 import multer from "multer";
 import { validationResult } from "express-validator";
 // import { parseFile, uploadFile } from "../utils/upload/index.js";
@@ -54,7 +54,7 @@ productsRouter.post("/", productValidation, async (req, res, next) => {
 // Post Product Image
 
 productsRouter.post(
-  "/product/:id/upload",
+  "/:id/upload",
   multer().single("image"),
   async (req, res, next) => {
     try {
@@ -62,22 +62,22 @@ productsRouter.post(
         console.log(req.file);
         console.log("This is the id: ", req.params.id);
         const newFileName = req.params.id + req.file.originalname;
-        await saveCoverImages(newFileName, req.file.buffer);
+        await saveImages(newFileName, req.file.buffer);
         const products =  await getProducts();
         const index = await products.findIndex(
           (prod) => prod._id === req.params.id
         );
         let fileLinkDeclaration = "";
         if (index !== -1) {
-          const postPreEdit = products[index];
+          const productPreEdit = products[index];
           const editedProduct = {
             ...products[index],
             cover: `http://localhost:3001/images/${newFileName}`,
           };
 
-          posts[index] = editedPost;
+          products[index] = editedProduct;
 
-          await writePostsToFile(posts);
+          await writeProductsToFile(products);
           console.log("this is the product pre edit", productPreEdit);
           console.log("this is the product post-edit", editedProduct);
           console.log("These are the products", products);

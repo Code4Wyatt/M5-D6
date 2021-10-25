@@ -2,8 +2,7 @@ import express from "express"
 import uniqid from "uniqid"
 import { validationResult } from "express-validator"
 import createHttpError from "http-errors"
-import { getReviews } from "../../lib/functions.js"
-import { writeReviewsToFile } from "../../lib/functions.js"
+import { getReviews, writeReviewsToFile } from "../../lib/functions.js"
 import { reviewValidation } from "./validation.js"
 
 
@@ -43,7 +42,7 @@ reviewsRouter.get("/", async (req, res, next) => {
   }catch(error){next(error)}
 })
 
-reviewRouter.post("/", reviewValidation , async (req, res, next) => {
+reviewsRouter.post("/", reviewValidation , async (req, res, next) => {
     try{
         const errorList = validationResult(req)
         console.log(errorList)
@@ -82,7 +81,6 @@ reviewRouter.post("/", reviewValidation , async (req, res, next) => {
 
   })
 
-  //PUT /authors/123 => edit the author with the given id
   reviewsRouter.put("/:id", async (req, res, next) =>{
     try{
       const reviews  = await getReviews()
@@ -94,7 +92,7 @@ reviewRouter.post("/", reviewValidation , async (req, res, next) => {
       reviews[index] = editedReview
 
       await writeReviewsToFile(reviews)
-      res.send(editedReviwe)
+      res.send(editedReview)
     }else{
       next(createHttpError(404, `Reviews with the id ${req.params.id} don't exist` ))
     }
@@ -143,4 +141,3 @@ export default reviewsRouter
 
 
 
-export default reviewsRouter

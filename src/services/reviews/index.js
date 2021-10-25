@@ -106,7 +106,7 @@ reviewsRouter.post("/", reviewValidation , async (req, res, next) => {
 reviewsRouter.delete("/:id", async (req, res, next) =>{
   try{
     const reviews  = await getReviews()
-    const foundReview = reviews.find(rev => rev.id === req.params.id)
+    const foundReview = reviews.find(rev => rev._id === req.params.id)
     
     if(foundReview){
       const afterDeletion = reviews.filter(rev => rev.id !== req.params.id)

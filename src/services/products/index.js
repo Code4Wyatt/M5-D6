@@ -131,14 +131,14 @@ productsRouter.get(" /products/:id/reviews", async (req, res, next) =>{
 
 productsRouter.get("/:id", async (req, res, next) => {
   try {
-    const fileAsBuffer = await getProducts();
+    const products = await getProducts();
 
     // const fileAsString = fileAsBuffer.toString();
 
     // const fileAsJSONArray = JSON.parse(fileAsString);
 
-    const product = fileAsBuffer.find(
-      (product) => product.id === req.params.id
+    const product = products.find(
+      (product) => product._id === req.params.id
     );
     if (!product) {
       res
@@ -146,7 +146,7 @@ productsRouter.get("/:id", async (req, res, next) => {
         .send({ message: `Product with ${req.params.id} is not found!` });
     }
 
-    res.send(product);
+    res.status(200).send(product);
   } catch (error) {
     res.send(500).send({ message: error.message });
   }

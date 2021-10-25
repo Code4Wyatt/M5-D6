@@ -53,12 +53,12 @@ reviewsRouter.post("/", reviewValidation , async (req, res, next) => {
 
             console.log(req.body)
   
-    const newReview = { ...req.body, _id: uniqid(), createdAt: new Date}
+    const newReview = { ...req.body, _id: uniqid(),  createdAt: new Date}
     const reviews = await getReviews()
     reviews.push(newReview)
     await writeReviewsToFile(reviews)
  
-    res.send({id: newReviwe._id})
+    res.send({id: newReview._id})
     }
     }catch(error){next(error)}
 
@@ -84,7 +84,7 @@ reviewsRouter.post("/", reviewValidation , async (req, res, next) => {
   reviewsRouter.put("/:id", async (req, res, next) =>{
     try{
       const reviews  = await getReviews()
-      const index = reviews.findIndex(rev => rev.id === req.params.id)
+      const index = reviews.findIndex(rev => rev._id === req.params.id)
       
       if(index !== -1){
         const editedReview = {...reviews[index], ...req.body , updatedAt : new Date}

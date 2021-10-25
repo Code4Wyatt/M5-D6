@@ -2,9 +2,10 @@ import express from "express";
 import uniqid from "uniqid";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import { productValidation } from "./validation.js";
+import { productValidation  } from "./validation.js";
 import { getProducts, getReviews, writeProductsToFile } from "../../lib/functions.js";
 import multer from "multer";
+import { validationResult } from "express-validator";
 // import { parseFile, uploadFile } from "../utils/upload/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,7 +47,7 @@ productsRouter.post("/", productValidation, async (req, res, next) => {
 
     }
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 

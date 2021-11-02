@@ -3,6 +3,7 @@ import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import productsRouter from "./services/products/index.js";
 import reviewsRouter from "./services/reviews/index.js";
+import createDefaultTables from "./db/create-tables.js";
 import { join } from "path";
 
 const server = express();

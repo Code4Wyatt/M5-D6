@@ -112,7 +112,7 @@ productsRouter.get("/", async (req, res, next) => {
 //*BELOW gets all the reviews for a specific product*/
 
 
-productsRouter.get(" /products/:id/reviews", async (req, res, next) =>{
+productsRouter.get("/:id/reviews", async (req, res, next) =>{
     try{
       console.log(req)
       const reviews  = await getReviews()
@@ -229,27 +229,27 @@ productsRouter.put("/:id", async (req, res, next) => {
 
 productsRouter.delete("/:id", async (req, res, next) => {
   try {
-    const fileAsBuffer = await getProducts();
+    const products = await getProducts();
 
    // const fileAsString = fileAsBuffer.toString();
 
    // let fileAsJSONArray = JSON.parse(fileAsString);
 
-    const product = fileAsBuffer.find(
-      (product) => product.id === req.params.id
+    const product = products.find(
+      (prod) => prod._id === req.params.id
     );
     if (!product) {
       res
         .status(404)
         .send({ message: `Product with ${req.params.id} is not found!` });
-    }
-    fileAsJSONArray = fileAsBuffer.filter(
-      (product) => product.id !== req.params.id
+    }else {
+    const afterDeletion = products.filter(
+      (prod) => prod._id !== req.params.id
     );
-    writeProductsToFile(fileAsJSONArray)
-    res.status(204).send("Deletion complete");
+    writeProductsToFile(afterDeletion)
+    res.status(204).send("Deletion complete");}
   } catch (error) {
-    res.send(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 

@@ -1,28 +1,27 @@
 import express from "express";
 import cors from "cors";
-import { testConnection, connectDB } from "../src/db/index.js";
+import listEndpoints from "express-list-endpoints";
 import productsRouter from "./services/products/index.js";
 import reviewsRouter from "./services/reviews/index.js";
-
+import createDefaultTables from "./db/create-tables.js";
+import { join } from "path";
 
 const server = express();
 
-const port = process.env;
-
-server.use(cors());
-
+server.use(cors("*"));
 server.use(express.json());
 
+const publicFolderPath = join(process.cwd(), "public");
+
+
+server.use(express.static(publicFolderPath));
 server.use("/products", productsRouter);
 server.use("/reviews", reviewsRouter);
 
+const port = 3001;
 
-server.listen(port, async() => {
-  console.log("server on port:", port);
-  await testConnection(); // confirms connection is possible
-  await connectDB(); // connects
-});
-  
-server.on("error", (error) => {
-  console.log("Server has stopped due to:", error);
-});
+console.table(listEndpoints(server));
+
+server.listen(port, () => {
+    console.log("server on port:", port);
+  });

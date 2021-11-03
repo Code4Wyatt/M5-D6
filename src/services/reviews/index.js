@@ -1,5 +1,5 @@
 import express from "express";
-import models from "../../db/models";
+import models from "../../db/models/index.js";
 const { Product, Review } = models; // deconstructing product and review models from the models db file
 
 const router = express.Router();

@@ -17,8 +17,12 @@ server.use("/products", productsRouter);
 server.use("/reviews", reviewsRouter);
 
 
-server.listen(port, () => {
+server.listen(port, async() => {
   console.log("server on port:", port);
   await testConnection(); // confirms connection is possible
   await connectDB(); // connects
-  });
+});
+  
+server.on("error", (error) => {
+  console.log("Server has stopped due to:", error);
+});

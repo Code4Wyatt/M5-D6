@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -e js ./src/server.js"
+    "dev": "nodemon -r dotenv/config  ./src/server.js"
   },
   "repository": {
     "url": "git+https://github.com/Code4Wyatt/M5-D6.git"
@@ -32,5 +32,8 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.9.0",
     "uniqid": "^5.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }

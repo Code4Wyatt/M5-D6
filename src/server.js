@@ -6,7 +6,7 @@ import reviewsRouter from "./services/reviews/index.js";
 
 const server = express();
 
-const port = process.env;
+const port = process.env.PORT;
 
 server.use(cors());
 server.use(express.json());
@@ -15,7 +15,7 @@ server.use("/products", productsRouter);
 server.use("/reviews", reviewsRouter);
 
 server.listen(port, async () => {
-  console.log("Server running on ${port}");
+  console.log(`Server running on ${port}`);
   await testConnection();
   await connectDB();
 });
